@@ -1,0 +1,10 @@
+#pragma once
+
+#include "nstl-configs/LibConfig.h"
+#include "nstl-configs/Compiler.h"
+
+namespace NSTL_NS {
+
+    typedef unsigned long long size_t;
+    typedef  NSTL_NULLPTR nullptr_t;
+}
