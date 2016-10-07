@@ -1,7 +1,7 @@
-set(curr_lib_name header-only)
+set(curr_lib_name notSTL)
 
 set(currsources
-	libs/header-only/HeaderOnly.h
+	libs/nstl/type_traits
 )
 
 set(source_files ${source_files} ${currsources})

@@ -2,11 +2,6 @@
 
 Plain old STL, configurable, measurable.
 
-Supported Platforms:
-- Windows (Visual Studio)
-- Linux (Makefiles, Visual Studio Code)
-- Linux via Windows (Planned)
-
 ##Table of Contents
 - [Overview](#overview)
 - [Requirements](#requirements)

@@ -1,6 +1,6 @@
-project (ProjectName)
+project (notSTL)
 
-set(executable_name ExecutableName)
+set(executable_name notSTL-Tests)
 execute_process(COMMAND sed -i -e "s/EXECUTABLENAMEHERE/${executable_name}/g" "../.vscode/launch.json")
 
 include(libs/CMakeLists.txt)
