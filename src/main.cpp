@@ -118,4 +118,60 @@ int main() {
     class is_compound_test {};
     static_assert(std::is_compound<is_compound_test>::value == true, "is_compound is incorrect for test class");
     static_assert(std::is_compound<int>::value == false, "is_compound is incorrect for int");
+
+    static_assert(std::is_const<const int>::value == true, "is_const is incorrect for const int");
+    static_assert(std::is_const<const volatile int>::value == true, "is_const is incorrect for const volatile int");
+    static_assert(std::is_const<int>::value == false, "is_const is incorrect for int");
+
+    static_assert(std::is_volatile<volatile int>::value == true, "is_volatile is incorrect for volatile int");
+    static_assert(std::is_volatile<const volatile int>::value == true, "is_volatile is incorrect for const volatile int");
+    static_assert(std::is_volatile<int>::value == false, "is_volatile is incorrect for int");
+
+    class is_trivial_test_class { public: is_trivial_test_class(const is_trivial_test_class&) {}; };
+    struct is_trivial_test_struct {};
+    static_assert(std::is_trivial<int>::value == true, "is_trivial is incorrect for int");
+    static_assert(std::is_trivial<is_trivial_test_class>::value == false, "is_trivial is incorrect for test class");
+    static_assert(std::is_trivial<is_trivial_test_struct>::value == true, "is_trivial is incorrect for test struct");
+
+    class is_trivially_copyable_class { public: is_trivially_copyable_class(const is_trivially_copyable_class&) {}; };
+    struct is_trivially_copyable_struct {};
+    static_assert(std::is_trivially_copyable<int>::value == true, "is_trivially_copyable is incorrect for int");
+    static_assert(std::is_trivially_copyable<is_trivial_test_class>::value == false, "is_trivially_copyable is incorrect for test class");
+    static_assert(std::is_trivially_copyable<is_trivially_copyable_struct>::value == true, "is_trivially_copyable is incorrect for test struct");
+
+    struct test_a { int x; };
+    struct test_b { int x; private: int y; };
+    struct test_c { virtual void Test() {}; };
+    struct test_d { virtual ~test_d() {}; };
+
+    static_assert(std::is_standard_layout<int>::value == true, "is_standard_layout is incorrect for int");
+    static_assert(std::is_standard_layout<test_a>::value == true, "is_standard_layout is incorrect for test struct a");
+    static_assert(std::is_standard_layout<test_b>::value == false, "is_standard_layout is incorrect for test struct b");
+    static_assert(std::is_standard_layout<test_c>::value == false, "is_standard_layout is incorrect for test struct c");
+
+    static_assert(std::is_pod<int>::value == true, "is_pod is incorrect for int");
+    static_assert(std::is_pod<test_a>::value == true, "is_pod is incorrect for test struct a");
+    static_assert(std::is_pod<test_b>::value == false, "is_pod is incorrect for test struct b");
+
+    static_assert(std::is_literal_type<int>::value == true, "is_literal_type is incorrect for int");
+    static_assert(std::is_literal_type<const char*>::value == true, "is_literal_type is incorrect for const char*");
+    static_assert(std::is_literal_type<test_d>::value == false, "is_literal_type is incorrect for test struct d");
+
+    struct is_empty_test {};
+    static_assert(std::is_empty<is_empty_test>::value == true, "is_empty is incorrect for test struct");
+    static_assert(std::is_empty<int>::value == false, "is_empty is incorrect for int");
+    static_assert(std::is_empty<test_a>::value == false, "is_empty is incorrect for test struct a");
+
+    static_assert(std::is_polymorphic<test_c>::value == true, "is_polymorphic is incorrect for test struct c");
+    static_assert(std::is_polymorphic<int>::value == false, "is_polymorphic is incorrect for int");
+
+    struct is_abstract_test_1 { virtual void Test() = 0; };
+    struct is_abstract_test_2 : is_abstract_test_1 {  };
+    static_assert(std::is_abstract<is_abstract_test_1>::value == true, "is_abstract is incorrect for test struct 1");
+    static_assert(std::is_abstract<is_abstract_test_2>::value == true, "is_abstract is incorrect for test struct 2");
+    static_assert(std::is_abstract<int>::value == false, "is_abstract is incorrect for int");
+
+    struct is_final_test_1 final { };
+    static_assert(std::is_final<is_final_test_1>::value == true, "is_final is incorrect for test struct");
+    static_assert(std::is_final<int>::value == false, "is_final is incorrect for int");
 }

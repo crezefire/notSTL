@@ -266,18 +266,55 @@ namespace NSTL_HNS {
         integral_constant <bool, !is_fundamental<T>::value>
     {};
 
-    // 20.10.4.3, type properties:
-    template <class T> struct is_const;
-    template <class T> struct is_volatile;
-    template <class T> struct is_trivial;
-    template <class T> struct is_trivially_copyable;
-    template <class T> struct is_standard_layout;
-    template <class T> struct is_pod;
-    template <class T> struct is_literal_type;
-    template <class T> struct is_empty;
-    template <class T> struct is_polymorphic;
-    template <class T> struct is_abstract;
-    template <class T> struct is_final;
+    //Is Const
+    template <class T>
+    struct is_const : false_type {};
+
+    template <class T>
+    struct is_const <const T> : true_type {};
+
+    //Is Volatile
+    template <class T>
+    struct is_volatile : false_type {};
+
+    template <class T>
+    struct is_volatile <volatile T> : true_type {};
+
+    //Is Trivial
+    template <class T>
+    struct is_trivial : integral_constant <bool, NSTL_IS_TRIVIAL(T)> {};
+
+    //Is Trivially Copyable
+    template <class T>
+    struct is_trivially_copyable : integral_constant <bool, NSTL_IS_TRIVIALLY_COPYABLE(T)> {};
+
+    //Is Standard Layout
+    template <class T>
+    struct is_standard_layout : integral_constant <bool, NSTL_IS_STANDARD_LAYOUT(T)> {};
+
+    //Is POD
+    template <class T>
+    struct is_pod : integral_constant <bool, NSTL_IS_POD(T)> {};
+
+    //Is Literal Type
+    template <class T>
+    struct is_literal_type : integral_constant <bool, NSTL_IS_LITERAL_TYPE(T)> {};
+
+    //Is Empty
+    template <class T>
+    struct is_empty : integral_constant <bool, NSTL_IS_EMPTY(T)> {};
+
+    //Is Polymorphic
+    template <class T>
+    struct is_polymorphic : integral_constant <bool, NSTL_IS_POLYMORPHIC(T)> {};
+
+    //Is Abstract
+    template <class T>
+    struct is_abstract : integral_constant <bool, NSTL_IS_ABSTRACT(T)> {};
+
+    //Is Final
+    template <class T> struct is_final : integral_constant <bool, NSTL_IS_FINAL(T)> {};
+
     template <class T> struct is_signed;
     template <class T> struct is_unsigned;
     template <class T, class... Args> struct is_constructible;
