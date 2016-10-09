@@ -56,9 +56,30 @@ int main() {
     static_assert(std::is_rvalue_reference<int&&>::value == true, "is_rvalue_reference is incorrect for int&&");
     static_assert(std::is_rvalue_reference<int>::value == false, "is_rvalue_reference is incorrect for int");
 
-    //TODO(vim): Tests from this point onwards
-
     class member_ptr_test {};
     static_assert(std::is_member_pointer<int(member_ptr_test::*)>::value == true, "is_member_pointer is incorrect for int(member_ptr_test::*)");
     static_assert(std::is_member_pointer<int>::value == false, "is_member_pointer is incorrect for int");
+
+    union is_union_test { int i; float f; };
+    static_assert(std::is_union<is_union_test>::value == true, "is_union is incorrect for test union");
+    static_assert(std::is_union<int>::value == false, "is_union is incorrect for int");
+
+    class is_class_test {};
+    static_assert(std::is_class<is_class_test>::value == true, "is_class is incorrect for test class");
+    static_assert(std::is_class<int>::value == false, "is_class is incorrect for int");
+
+    static_assert(std::is_function<void*(int, float)>::value == true, "is_function is incorrect for test function");
+    static_assert(std::is_function<int>::value == false, "is_function is incorrect for int");
+
+    class is_member_function_pointer_test { public: void Test(); };
+    static_assert(std::is_member_function_pointer<decltype(&is_member_function_pointer_test::Test)>::value == true, "is_member_function_pointer is incorrect for test member function");
+    static_assert(std::is_member_function_pointer<int>::value == false, "is_member_function_pointer is incorrect for int");
+
+    class is_member_object_pointer_test {};
+    static_assert(std::is_member_object_pointer<int(is_member_object_pointer_test ::*)>::value == true, "is_member_object_pointer is incorrect for test member object");
+    static_assert(std::is_member_object_pointer<int>::value == false, "is_member_object_pointer is incorrect for int");
+
+    enum class is_enum_test { case1, case2, case3 };
+    static_assert(std::is_enum<is_enum_test>::value == true, "is_enum is incorrect for test enum");
+    static_assert(std::is_enum<int>::value == false, "is_enum is incorrect for int");
 }
