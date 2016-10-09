@@ -56,6 +56,10 @@ int main() {
     static_assert(std::is_rvalue_reference<int&&>::value == true, "is_rvalue_reference is incorrect for int&&");
     static_assert(std::is_rvalue_reference<int>::value == false, "is_rvalue_reference is incorrect for int");
 
+    static_assert(std::is_reference<int&&>::value == true, "is_reference is incorrect for int&&");
+    static_assert(std::is_reference<int&>::value == true, "is_reference is incorrect for int&");
+    static_assert(std::is_rvalue_reference<int>::value == false, "is_reference is incorrect for int");
+
     class member_ptr_test {};
     static_assert(std::is_member_pointer<int(member_ptr_test::*)>::value == true, "is_member_pointer is incorrect for int(member_ptr_test::*)");
     static_assert(std::is_member_pointer<int>::value == false, "is_member_pointer is incorrect for int");
@@ -82,4 +86,36 @@ int main() {
     enum class is_enum_test { case1, case2, case3 };
     static_assert(std::is_enum<is_enum_test>::value == true, "is_enum is incorrect for test enum");
     static_assert(std::is_enum<int>::value == false, "is_enum is incorrect for int");
+
+    static_assert(std::is_arithmetic<int>::value == true, "is_arithmetic is incorrect for int");
+    static_assert(std::is_arithmetic<float>::value == true, "is_arithmetic is incorrect for float");
+    static_assert(std::is_arithmetic<char>::value == true, "is_arithmetic is incorrect for char");
+    static_assert(std::is_arithmetic<void>::value == false, "is_arithmetic is incorrect for void");
+
+    struct is_fundamental_test {};
+    static_assert(std::is_fundamental<char>::value == true, "is_fundamental is incorrect for char");
+    static_assert(std::is_fundamental<long int>::value == true, "is_fundamental is incorrect for long int");
+    static_assert(std::is_fundamental<void>::value == true, "is_fundamental is incorrect for void");
+    static_assert(std::is_fundamental<std::nullptr_t>::value == true, "is_fundamental is incorrect for long int");
+    static_assert(std::is_fundamental<is_fundamental_test>::value == false, "is_fundamental is incorrect for test struct");
+
+    class is_object_test {};
+    static_assert(std::is_object<int>::value == true, "is_object is incorrect for int");
+    static_assert(std::is_object<int&>::value == false, "is_object is incorrect for int&");
+    static_assert(std::is_object<is_object_test>::value == true, "is_object is incorrect for is_object_test");
+    static_assert(std::is_object<is_object_test&>::value == false, "is_object is incorrect for is_object_test&");
+
+    enum class is_scalar_test_enum { case1, case2, case3 };
+    class is_scalar_test_class {};
+    static_assert(std::is_scalar<is_scalar_test_enum>::value == true, "is_scalar is incorrect for test enum");
+    static_assert(std::is_scalar<is_scalar_test_enum*>::value == true, "is_scalar is incorrect for test enum pointer");
+    static_assert(std::is_scalar<int(is_scalar_test_class::*)>::value == true, "is_scalar is incorrect for class member pointer");
+    static_assert(std::is_scalar<std::size_t>::value == true, "is_scalar is incorrect for std::size_t");
+    static_assert(std::is_scalar<std::nullptr_t>::value == true, "is_scalar is incorrect for std::nullptr_t");
+    static_assert(std::is_scalar<is_scalar_test_class>::value == false, "is_scalar is incorrect for test class");
+    static_assert(std::is_scalar<is_scalar_test_class&>::value == false, "is_scalar is incorrect for test class reference");
+
+    class is_compound_test {};
+    static_assert(std::is_compound<is_compound_test>::value == true, "is_compound is incorrect for test class");
+    static_assert(std::is_compound<int>::value == false, "is_compound is incorrect for int");
 }
