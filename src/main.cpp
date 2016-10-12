@@ -1,13 +1,5 @@
 #include "nstl/type_traits"
 
-template <class T>
-struct ref_test {};
-
-struct remove_reference_dummy;
-
-template<>
-struct ref_test<remove_reference_dummy> {};
-
 int main() {
     static_assert(std::true_type::value == true, "true_type has incorrect value type");
     const std::true_type::value_type tt_vt = false;
@@ -203,10 +195,7 @@ int main() {
     static_assert(std::is_default_constructible<is_default_constructible_test_b>::value == false, "is_default_constructible is incorrect for test struct b");
 
     struct remove_reference_dummy { int x; };
-    std::remove_reference<remove_reference_dummy>::type test_a;
-    ref_test<decltype(test_a)> test_a_decl;
-    std::remove_reference<remove_reference_dummy&>::type test_b;
-    ref_test<decltype(test_b)> test_b_decl;
-    std::remove_reference<remove_reference_dummy&&>::type test_c;
-    ref_test<decltype(test_c)> test_c_decl;
+    static_assert(std::is_reference<std::remove_reference<remove_reference_dummy>>::value == false, "remove_reference is incorrect for value type");
+    static_assert(std::is_reference<std::remove_reference<remove_reference_dummy&>>::value == false, "remove_reference is incorrect for lvalue ref type");
+    static_assert(std::is_reference<std::remove_reference<remove_reference_dummy&&>>::value == false, "remove_reference is incorrect for rvalue type");
 }
