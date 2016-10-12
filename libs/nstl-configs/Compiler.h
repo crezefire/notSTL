@@ -18,4 +18,6 @@
     #define NSTL_IS_POLYMORPHIC(type)           __is_polymorphic(type)
     #define NSTL_IS_ABSTRACT(type)              __is_abstract(type)
     #define NSTL_IS_FINAL(type)                 __is_final(type)
+
+    #define NSTL_IS_CONSTRUCTIBLE(type, args)   __is_constructible(type, args)
 #endif

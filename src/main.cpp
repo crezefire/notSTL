@@ -1,5 +1,13 @@
 #include "nstl/type_traits"
 
+template <class T>
+struct ref_test {};
+
+struct remove_reference_dummy;
+
+template<>
+struct ref_test<remove_reference_dummy> {};
+
 int main() {
     static_assert(std::true_type::value == true, "true_type has incorrect value type");
     const std::true_type::value_type tt_vt = false;
@@ -75,7 +83,7 @@ int main() {
     static_assert(std::is_function<void*(int, float)>::value == true, "is_function is incorrect for test function");
     static_assert(std::is_function<int>::value == false, "is_function is incorrect for int");
 
-    class is_member_function_pointer_test { public: void Test(); };
+    class is_member_function_pointer_test { public: void Test() {}; };
     static_assert(std::is_member_function_pointer<decltype(&is_member_function_pointer_test::Test)>::value == true, "is_member_function_pointer is incorrect for test member function");
     static_assert(std::is_member_function_pointer<int>::value == false, "is_member_function_pointer is incorrect for int");
 
@@ -174,4 +182,31 @@ int main() {
     struct is_final_test_1 final { };
     static_assert(std::is_final<is_final_test_1>::value == true, "is_final is incorrect for test struct");
     static_assert(std::is_final<int>::value == false, "is_final is incorrect for int");
+
+    static_assert(std::is_signed<int>::value == true, "is_signed is incorrect for int");
+    static_assert(std::is_signed<char>::value == true, "is_signed is incorrect for char");
+    static_assert(std::is_signed<double>::value == true, "is_signed is incorrect for double");
+    static_assert(std::is_signed<unsigned char>::value == false, "is_signed is incorrect for unsigned char");
+
+    static_assert(std::is_unsigned<int>::value == false, "is_unsigned is incorrect for int");
+    static_assert(std::is_unsigned<char>::value == false, "is_unsigned is incorrect for char");
+    static_assert(std::is_unsigned<double>::value == false, "is_unsigned is incorrect for double");
+    static_assert(std::is_unsigned<unsigned char>::value == true, "is_unsigned is incorrect for unsigned char");
+
+    struct is_constructible_test { is_constructible_test(int x, float y, char z) {}; };
+    static_assert(std::is_constructible<is_constructible_test, int, float, char>::value == true, "is_constructible is incorrect for test struct and test arguments");
+    static_assert(std::is_constructible<is_constructible_test, int, float>::value == false, "is_constructible is incorrect for test struct and test arguments");
+
+    struct is_default_constructible_test_a {};
+    struct is_default_constructible_test_b { is_default_constructible_test_b(int x) {}  };
+    static_assert(std::is_default_constructible<is_default_constructible_test_a>::value == true, "is_default_constructible is incorrect for test struct a");
+    static_assert(std::is_default_constructible<is_default_constructible_test_b>::value == false, "is_default_constructible is incorrect for test struct b");
+
+    struct remove_reference_dummy { int x; };
+    std::remove_reference<remove_reference_dummy>::type test_a;
+    ref_test<decltype(test_a)> test_a_decl;
+    std::remove_reference<remove_reference_dummy&>::type test_b;
+    ref_test<decltype(test_b)> test_b_decl;
+    std::remove_reference<remove_reference_dummy&&>::type test_c;
+    ref_test<decltype(test_c)> test_c_decl;
 }
