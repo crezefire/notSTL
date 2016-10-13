@@ -198,4 +198,14 @@ int main() {
     static_assert(std::is_reference<std::remove_reference<remove_reference_dummy>>::value == false, "remove_reference is incorrect for value type");
     static_assert(std::is_reference<std::remove_reference<remove_reference_dummy&>>::value == false, "remove_reference is incorrect for lvalue ref type");
     static_assert(std::is_reference<std::remove_reference<remove_reference_dummy&&>>::value == false, "remove_reference is incorrect for rvalue type");
+
+    struct add_lvalue_reference_test { int x; };
+    static_assert(std::is_lvalue_reference<std::add_lvalue_reference<void>::type>::value == false, "is_lvalue_reference is incorrect for void");
+    static_assert(std::is_lvalue_reference<std::add_lvalue_reference<std::nullptr_t>::type>::value == true, "is_lvalue_reference is incorrect for nullptr_t");
+    static_assert(std::is_lvalue_reference<std::add_lvalue_reference<int>::type>::value == true, "is_lvalue_reference is incorrect for int");
+    static_assert(std::is_lvalue_reference<std::add_lvalue_reference<int&>::type>::value == true, "is_lvalue_reference is incorrect for int&");
+    static_assert(std::is_lvalue_reference<std::add_lvalue_reference<int&&>::type>::value == true, "is_lvalue_reference is incorrect for int&&");
+    static_assert(std::is_lvalue_reference<std::add_lvalue_reference<decltype(main)>::type>::value == true, "is_lvalue_reference is incorrect for int main();");
+    static_assert(std::is_lvalue_reference<std::add_lvalue_reference<decltype(add_lvalue_reference_test::x)>::type>::value == true, "is_lvalue_reference is incorrect for test struct member variable");
+
 }
