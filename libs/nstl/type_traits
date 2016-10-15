@@ -350,12 +350,13 @@ namespace NSTL_HNS {
 
 namespace NSTL_HNS {
     //All lValue Reference
-    template <class T, bool = is_reference<T>::value> struct _add_lvalue_reference { typedef std::remove_reference<T>::type& type; };
+    template <class T, bool = is_reference<T>::value> struct _add_lvalue_reference { typedef typename remove_reference<T>::type& type; };
 
     template <class T> struct _add_lvalue_reference <T, false> { typedef T& type; };
 }
 
     template <class T> struct add_lvalue_reference : NSTL_HNS::_add_lvalue_reference <T>{};
+    template <> struct add_lvalue_reference<void> : false_type {};
 
     template <class T> struct add_rvalue_reference;
     template <class T>
