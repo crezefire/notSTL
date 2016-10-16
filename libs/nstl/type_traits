@@ -349,16 +349,27 @@ namespace NSTL_HNS {
     struct remove_reference : NSTL_HNS::_remove_reference<T> {};
 
 namespace NSTL_HNS {
-    //All lValue Reference
-    template <class T, bool = is_reference<T>::value> struct _add_lvalue_reference { typedef typename remove_reference<T>::type& type; };
+    template <class T, bool = is_void<T>::value 
+        && !is_object<T>::value
+        && !is_reference<T>::value
+        && !is_function<T>::value>
+    struct _add_reference {
+        typedef T lvalue;
+        typedef T rvalue;
+    };
 
-    template <class T> struct _add_lvalue_reference <T, false> { typedef T& type; };
+    template <class T>
+    struct _add_reference <T, false> {
+        typedef T& lvalue;
+        typedef T&& rvalue;
+    };
 }
+    //Add lValue Reference
+    template <class T> struct add_lvalue_reference { typedef typename NSTL_HNS::_add_reference<T>::lvalue type; };
 
-    template <class T> struct add_lvalue_reference : NSTL_HNS::_add_lvalue_reference <T>{};
-    template <> struct add_lvalue_reference<void> : false_type {};
+    //Add rValue Reference
+    template <class T> struct add_rvalue_reference { typedef typename NSTL_HNS::_add_reference<T>::rvalue type; };
 
-    template <class T> struct add_rvalue_reference;
     template <class T>
     using remove_reference_t = typename remove_reference<T>::type;
     template <class T>
