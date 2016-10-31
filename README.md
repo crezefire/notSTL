@@ -8,7 +8,9 @@ Plain old STL, configurable, measurable.
 - [Getting Started](#getting-started)
 
 ##Overview
-........
+The aim of this project is to create a cross platform STL that is configurable by users and easily measurable for profiling. The decisions that are generally left to compiler vendors shall be configurable via constants and switches.
+
+There often exists an implementation of STL that is faster if one or two things were changed in the API, this project aims to make that possible and configurable, which might make it hard to maintain full standard compliance.
 
 ##Requirements
 Common:
