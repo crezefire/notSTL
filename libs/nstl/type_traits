@@ -365,10 +365,16 @@ namespace NSTL_HNS {
     };
 }
     //Add lValue Reference
-    template <class T> struct add_lvalue_reference { typedef typename NSTL_HNS::_add_reference<T>::lvalue type; };
+    template <class T>
+    struct add_lvalue_reference {
+        typedef typename NSTL_HNS::_add_reference<T>::lvalue type;
+    };
 
     //Add rValue Reference
-    template <class T> struct add_rvalue_reference { typedef typename NSTL_HNS::_add_reference<T>::rvalue type; };
+    template <class T>
+    struct add_rvalue_reference {
+        typedef typename NSTL_HNS::_add_reference<T>::rvalue type;
+    };
 
     template <class T>
     using remove_reference_t = typename remove_reference<T>::type;
@@ -377,15 +383,67 @@ namespace NSTL_HNS {
     template <class T>
     using add_rvalue_reference_t = typename add_rvalue_reference<T>::type;
 
-    template <class T> struct is_copy_constructible;
-    template <class T> struct is_move_constructible;
-    template <class T, class U> struct is_assignable;
-    template <class T> struct is_copy_assignable;
-    template <class T> struct is_move_assignable;
-    template <class T> struct is_destructible;
-    template <class T, class... Args> struct is_trivially_constructible;
-    template <class T> struct is_trivially_default_constructible;
-    template <class T> struct is_trivially_copy_constructible;
+    //Is Constructible
+    template <class T>
+    struct is_copy_constructible : 
+        is_constructible<T, 
+            typename add_const<
+                typename add_lvalue_reference<T>::type
+            >::type
+        >::type
+    {};
+
+    //Is Move Constructible
+    template <class T>
+    struct is_move_constructible :
+        is_constructible<T,
+            typename add_rvalue_reference<T>::type
+        >::type
+    {};
+
+    //Is Assignable
+    template <class T, class U>
+    struct is_assignable : integral_constant<bool, NSTL_IS_ASSIGNABLE(T, U)>
+    {};
+
+    //Is Copy Assignable
+    template <class T>
+    struct is_copy_assignable :
+        is_assignable<T,
+         typename add_const<
+            typename add_lvalue_reference<T>::type
+            >::type
+        >::type
+    {};
+
+    //Is Move Assignable
+    template <class T>
+    struct is_move_assignable :
+        is_assignable<T,
+            typename add_rvalue_reference<T>::type
+        >::type
+    {};
+
+    //Is Destructible
+    template <class T>
+    struct is_destructible : integral_constant<bool, NSTL_IS_DESTRUCTIBLE(T)>
+    {};
+
+    //Is Trivially Constructibe
+    template <class T, class... Args>
+    struct is_trivially_constructible : integral_constant<bool, NSTL_IS_TRIVIALLY_CONSTRUCTIBLE(T, Args...)>
+    {};
+
+    //Is Trivially Default Constructible
+    template <class T>
+    struct is_trivially_default_constructible : is_trivially_constructible<T>::type
+    {};
+
+    //Is Trivially Copy Constructible
+    template <class T>
+    struct is_trivially_copy_constructible;
+
+
     template <class T> struct is_trivially_move_constructible;
     template <class T, class U> struct is_trivially_assignable;
     template <class T> struct is_trivially_copy_assignable;
