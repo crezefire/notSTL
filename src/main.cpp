@@ -217,4 +217,16 @@ int main() {
     static_assert(std::is_same<double, typename std::conditional<false, int, double>::type>::value, "");
     static_assert(std::is_same<double, typename std::conditional<sizeof(int) >= sizeof(double), int, double>::type>::value, "");
 
+    //From N4296 Pg 619
+    static_assert(std::is_same<std::remove_extent_t<int>, int>::value, "");
+    static_assert(std::is_same<std::remove_extent_t<int[2]>, int>::value, "");
+    static_assert(std::is_same<std::remove_extent_t<int[2][3]>, int[3]>::value, "");
+    static_assert(std::is_same<std::remove_extent_t<int[][3]>, int[3]>::value, "");
+
+    //From N4296 Pg 619
+    static_assert(std::is_same<std::remove_all_extents_t<int>, int>::value, "");
+    static_assert(std::is_same<std::remove_all_extents_t<int[2]>, int>::value, "");
+    static_assert(std::is_same<std::remove_all_extents_t<int[2][3]>, int>::value, "");
+    static_assert(std::is_same<std::remove_all_extents_t<int[][3]>, int>::value, "");
+
 }

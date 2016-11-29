@@ -484,9 +484,38 @@ namespace NSTL_HNS {
     template <class T>
     using make_unsigned_t = typename make_unsigned<T>::type;
 
-    // 20.10.7.4, array modifications:
-    template <class T> struct remove_extent;
-    template <class T> struct remove_all_extents;
+    //Remove Extent
+    template <class T>
+    struct remove_extent {
+        typedef T type;
+    };
+
+    template <class T, NSTL_NS::size_t N>
+    struct remove_extent<T[N]> {
+        typedef T type;
+    };
+
+    template <class T>
+    struct remove_extent<T[]> {
+        typedef T type;
+    };
+
+    //Remove All Extents
+    template <class T>
+    struct remove_all_extents {
+        typedef T type;
+    };
+
+    template <class T, NSTL_NS::size_t N>
+    struct remove_all_extents<T[N]> {
+        typedef typename remove_all_extents<T>::type type;
+    };
+
+    template <class T>
+    struct remove_all_extents<T[]> {
+        typedef typename remove_all_extents<T>::type type;
+    };
+
     template <class T>
     using remove_extent_t = typename remove_extent<T>::type;
     template <class T>
