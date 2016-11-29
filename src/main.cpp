@@ -208,4 +208,13 @@ int main() {
     static_assert(std::is_lvalue_reference<std::add_lvalue_reference<decltype(main)>::type>::value == true, "is_lvalue_reference is incorrect for int main();");
     static_assert(std::is_lvalue_reference<std::add_lvalue_reference<decltype(add_lvalue_reference_test::x)>::type>::value == true, "is_lvalue_reference is incorrect for test struct member variable");
 
+    static_assert (std::is_same<int, int>::value, "0");
+    static_assert (!std::is_same<int, double>::value, "1");
+    static_assert (!std::is_same<bool, int>::value, "2");
+    static_assert (!std::is_same<const int, int>::value, "3");
+
+    static_assert(std::is_same<int, typename std::conditional<true, int, double>::type>::value, "");
+    static_assert(std::is_same<double, typename std::conditional<false, int, double>::type>::value, "");
+    static_assert(std::is_same<double, typename std::conditional<sizeof(int) >= sizeof(double), int, double>::type>::value, "");
+
 }
