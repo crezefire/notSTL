@@ -229,4 +229,17 @@ int main() {
     static_assert(std::is_same<std::remove_all_extents_t<int[2][3]>, int>::value, "");
     static_assert(std::is_same<std::remove_all_extents_t<int[][3]>, int>::value, "");
 
+    static_assert(std::is_same<std::remove_pointer_t<int>, int>::value, "");
+    static_assert(std::is_same<std::remove_pointer_t<int*>, int>::value, "");
+    static_assert(std::is_same<std::remove_pointer_t<const int*>,const int>::value, "");
+    static_assert(std::is_same<std::remove_pointer_t<int**>, int*>::value, "");
+
+    static_assert(std::is_same<std::add_pointer_t<int>, int*>::value, "");
+    static_assert(std::is_same<std::add_pointer_t<const volatile int>, const volatile int*>::value, "");
+    static_assert(std::is_same<std::add_pointer_t<void(int, float)>, void(*)(int, float)>::value, "");
+
+    static_assert(std::is_same<std::decay_t<int>, int>(), "");
+    static_assert(std::is_same<std::decay_t<const int>, int>(), "");
+    static_assert(std::is_same<std::decay_t<void(int, float)>, void(*)(int, float)>(), "");
+
 }
