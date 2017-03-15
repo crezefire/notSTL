@@ -1,18 +1,18 @@
-#notSTL: Cross Platform & Compiler STL
+# notSTL: Cross Platform & Compiler STL
 
 Plain old STL, configurable, measurable.
 
-##Table of Contents
+## Table of Contents
 - [Overview](#overview)
 - [Requirements](#requirements)
 - [Getting Started](#getting-started)
 
-##Overview
+## Overview
 The aim of this project is to create a cross platform STL that is configurable by users and easily measurable for profiling. The decisions that are generally left to compiler vendors shall be configurable via constants and switches.
 
 There often exists an implementation of STL that is faster if one or two things were changed in the API, this project aims to make that possible and configurable, which might make it hard to maintain full standard compliance.
 
-##Requirements
+## Requirements
 Common:
 - [CMake](https://cmake.org/download/) >= 3.4
 - bash (On Windows use MinGW installed via [Git for Windows](https://git-scm.com/downloads))
@@ -25,7 +25,7 @@ Linux:
 - [Visual Studio Code](https://code.visualstudio.com/download) (Optional, Requires GCC + GDB)
 - [VSCode C++ Extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode.cpptools) (Optional, Required with VSCode)
 
-##Getting Started
+## Getting Started
 To build the project as is run:
 
 ```shell
